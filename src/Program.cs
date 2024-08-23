@@ -24,7 +24,7 @@ class Program
             Console.WriteLine("0. Sair");
             Console.Write("Opção: ");
 
-            var option = Console.ReadLine()?.Trim();
+            var option = Console.ReadLine();
 
             switch (option)
             {
@@ -71,9 +71,9 @@ class Program
     static void RegisterGroup(SchoolService schoolService)
     {
         Console.Write("Nome da Turma: ");
-        string? groupName = Console.ReadLine()?.Trim();
+        string groupName = Console.ReadLine();
 
-        if (string.IsNullOrEmpty(groupName))
+        if (string.IsNullOrWhiteSpace(groupName))
         {
             Console.WriteLine("O nome da Turma não pode ser vazio.");
             return;
@@ -87,16 +87,16 @@ class Program
     {
         if (schoolService.Groups.Count == 0)
         {
-            Console.WriteLine("Nenhuma turma cadastrada. Cadastre uma turma primeiro.");
+            Console.WriteLine("Nenhum turma cadastrada. Cadastre uma turma primeiro.");
             return;
         }
 
         Console.Write("Nome do Estudante: ");
-        string? firstName = Console.ReadLine()?.Trim();
+        string firstName = Console.ReadLine();
         Console.Write("Sobrenome do Estudante: ");
-        string? lastName = Console.ReadLine()?.Trim();
+        string lastName = Console.ReadLine();
 
-        if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+        if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
         {
             Console.WriteLine("Nome e Sobrenome são obrigatórios.");
             return;
@@ -109,13 +109,8 @@ class Program
             Console.WriteLine($"ID: {group.GroupId}, Nome: {group.Name}");
         }
 
-        Console.Write("ID da Turma: ");
-        string? groupIdStr = Console.ReadLine()?.Trim();
-        if (string.IsNullOrEmpty(groupIdStr) || !int.TryParse(groupIdStr, out int groupId))
-        {
-            Console.WriteLine("ID de Turma inválido.");
-            return;
-        }
+        int groupId = ReadInt("ID da Turma");
+        if (groupId == -1) return;
 
         schoolService.AddStudent(firstName, lastName, groupId);
         Console.WriteLine("Estudante cadastrado com sucesso!");
@@ -124,11 +119,11 @@ class Program
     static void RegisterTeacher(SchoolService schoolService)
     {
         Console.Write("Nome do Professor: ");
-        string? firstName = Console.ReadLine()?.Trim();
+        string firstName = Console.ReadLine();
         Console.Write("Sobrenome do Professor: ");
-        string? lastName = Console.ReadLine()?.Trim();
+        string lastName = Console.ReadLine();
 
-        if (string.IsNullOrEmpty(firstName) || string.IsNullOrEmpty(lastName))
+        if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
         {
             Console.WriteLine("Nome e Sobrenome são obrigatórios.");
             return;
@@ -141,9 +136,9 @@ class Program
     static void RegisterSubject(SchoolService schoolService)
     {
         Console.Write("Título da Matéria: ");
-        string? title = Console.ReadLine()?.Trim();
+        string title = Console.ReadLine();
 
-        if (string.IsNullOrEmpty(title))
+        if (string.IsNullOrWhiteSpace(title))
         {
             Console.WriteLine("O título da matéria não pode ser vazio.");
             return;
@@ -168,13 +163,8 @@ class Program
             Console.WriteLine($"ID: {teacher.TeacherId}, Nome: {teacher.FirstName} {teacher.LastName}");
         }
 
-        Console.Write("ID do Professor: ");
-        string? teacherIdStr = Console.ReadLine()?.Trim();
-        if (string.IsNullOrEmpty(teacherIdStr) || !int.TryParse(teacherIdStr, out int teacherId))
-        {
-            Console.WriteLine("ID de Professor inválido.");
-            return;
-        }
+        int teacherId = ReadInt("ID do Professor");
+        if (teacherId == -1) return;
 
         // Mostrar lista de matérias
         Console.WriteLine("Matérias disponíveis:");
@@ -183,13 +173,8 @@ class Program
             Console.WriteLine($"ID: {subject.SubjectId}, Título: {subject.Title}");
         }
 
-        Console.Write("ID da Matéria: ");
-        string? subjectIdStr = Console.ReadLine()?.Trim();
-        if (string.IsNullOrEmpty(subjectIdStr) || !int.TryParse(subjectIdStr, out int subjectId))
-        {
-            Console.WriteLine("ID de Matéria inválido.");
-            return;
-        }
+        int subjectId = ReadInt("ID da Matéria");
+        if (subjectId == -1) return;
 
         // Mostrar lista de Turmas
         Console.WriteLine("Turmas disponíveis:");
@@ -198,13 +183,8 @@ class Program
             Console.WriteLine($"ID: {group.GroupId}, Nome: {group.Name}");
         }
 
-        Console.Write("ID da Turma: ");
-        string? groupIdStr = Console.ReadLine()?.Trim();
-        if (string.IsNullOrEmpty(groupIdStr) || !int.TryParse(groupIdStr, out int groupId))
-        {
-            Console.WriteLine("ID de Turma inválido.");
-            return;
-        }
+        int groupId = ReadInt("ID da Turma");
+        if (groupId == -1) return;
 
         schoolService.AssignTeacherToSubject(teacherId, subjectId, groupId);
         Console.WriteLine("Professor atribuído à matéria e turma com sucesso!");
@@ -225,13 +205,8 @@ class Program
             Console.WriteLine($"ID: {student.StudentId}, Nome: {student.FirstName} {student.LastName}");
         }
 
-        Console.Write("ID do Estudante: ");
-        string? studentIdStr = Console.ReadLine()?.Trim();
-        if (string.IsNullOrEmpty(studentIdStr) || !int.TryParse(studentIdStr, out int studentId))
-        {
-            Console.WriteLine("ID de Estudante inválido.");
-            return;
-        }
+        int studentId = ReadInt("ID do Estudante");
+        if (studentId == -1) return;
 
         // Mostrar lista de matérias
         Console.WriteLine("Matérias disponíveis:");
@@ -240,17 +215,11 @@ class Program
             Console.WriteLine($"ID: {subject.SubjectId}, Título: {subject.Title}");
         }
 
-        Console.Write("ID da Matéria: ");
-        string? subjectIdStr = Console.ReadLine()?.Trim();
-        if (string.IsNullOrEmpty(subjectIdStr) || !int.TryParse(subjectIdStr, out int subjectId))
-        {
-            Console.WriteLine("ID de Matéria inválido.");
-            return;
-        }
+        int subjectId = ReadInt("ID da Matéria");
+        if (subjectId == -1) return;
 
         Console.Write("Nota: ");
-        string? gradeStr = Console.ReadLine()?.Trim();
-        if (string.IsNullOrEmpty(gradeStr) || !int.TryParse(gradeStr, out int grade) || grade < 0 || grade > 100)
+        if (!int.TryParse(Console.ReadLine(), out int grade) || grade < 0 || grade > 100)
         {
             Console.WriteLine("Nota inválida. Deve ser um número entre 0 e 100.");
             return;
@@ -275,61 +244,107 @@ class Program
             Console.WriteLine($"ID: {student.StudentId}, Nome: {student.FirstName} {student.LastName}");
         }
 
-        Console.Write("ID do Estudante: ");
-        string? studentIdStr = Console.ReadLine()?.Trim();
-        if (string.IsNullOrEmpty(studentIdStr) || !int.TryParse(studentIdStr, out int studentId))
-        {
-            Console.WriteLine("ID de Estudante inválido.");
-            return;
-        }
+        int studentId = ReadInt("ID do Estudante");
+        if (studentId == -1) return;
 
         schoolService.PrintStudentReportCard(studentId);
     }
 
     static void ViewList(SchoolService schoolService)
     {
-        Console.WriteLine("Escolha o tipo de lista para visualizar:");
+        Console.Clear();
+        Console.WriteLine("Escolha a lista que deseja visualizar:");
         Console.WriteLine("1. Estudantes");
         Console.WriteLine("2. Turmas");
         Console.WriteLine("3. Professores");
         Console.WriteLine("4. Matérias");
         Console.Write("Opção: ");
 
-        var option = Console.ReadLine()?.Trim();
+        var option = Console.ReadLine();
+        Console.Clear();
 
         switch (option)
         {
             case "1":
-                Console.WriteLine("Estudantes:");
-                foreach (var student in schoolService.Students)
+                Console.WriteLine("Estudantes cadastrados:");
+                if (schoolService.Students.Count == 0)
                 {
-                    Console.WriteLine($"ID: {student.StudentId}, Nome: {student.FirstName} {student.LastName}");
+                    Console.WriteLine("Nenhum estudante cadastrado.");
+                }
+                else
+                {
+                    foreach (var student in schoolService.Students)
+                    {
+                        Console.WriteLine($"ID: {student.StudentId}, Nome: {student.FirstName} {student.LastName}, Turma: {student.Group.Name}");
+                    }
                 }
                 break;
             case "2":
-                Console.WriteLine("Turmas:");
-                foreach (var group in schoolService.Groups)
+                Console.WriteLine("Turmas cadastradas:");
+                if (schoolService.Groups.Count == 0)
                 {
-                    Console.WriteLine($"ID: {group.GroupId}, Nome: {group.Name}");
+                    Console.WriteLine("Nenhuma turma cadastrada.");
+                }
+                else
+                {
+                    foreach (var group in schoolService.Groups)
+                    {
+                        Console.WriteLine($"ID: {group.GroupId}, Nome: {group.Name}");
+                    }
                 }
                 break;
             case "3":
-                Console.WriteLine("Professores:");
-                foreach (var teacher in schoolService.Teachers)
+                Console.WriteLine("Professores cadastrados:");
+                if (schoolService.Teachers.Count == 0)
                 {
-                    Console.WriteLine($"ID: {teacher.TeacherId}, Nome: {teacher.FirstName} {teacher.LastName}");
+                    Console.WriteLine("Nenhum professor cadastrado.");
+                }
+                else
+                {
+                    foreach (var teacher in schoolService.Teachers)
+                    {
+                        Console.WriteLine($"ID: {teacher.TeacherId}, Nome: {teacher.FirstName} {teacher.LastName}");
+                    }
                 }
                 break;
             case "4":
-                Console.WriteLine("Matérias:");
-                foreach (var subject in schoolService.Subjects)
+                Console.WriteLine("Matérias cadastradas:");
+                if (schoolService.Subjects.Count == 0)
                 {
-                    Console.WriteLine($"ID: {subject.SubjectId}, Título: {subject.Title}");
+                    Console.WriteLine("Nenhuma matéria cadastrada.");
+                }
+                else
+                {
+                    foreach (var subject in schoolService.Subjects)
+                    {
+                        Console.WriteLine($"ID: {subject.SubjectId}, Título: {subject.Title}");
+                    }
                 }
                 break;
             default:
                 Console.WriteLine("Opção inválida!");
                 break;
         }
+    }
+
+    // Método auxiliar para ler um número inteiro do usuário com validação
+    static int ReadInt(string prompt)
+    {
+        Console.Write($"{prompt}: ");
+        string input = Console.ReadLine();
+
+        if (input.ToLower() == "cancel")
+        {
+            Console.WriteLine("Operação cancelada.");
+            return -1;
+        }
+
+        if (!int.TryParse(input, out int result) || result < 0)
+        {
+            Console.WriteLine("Entrada inválida. Por favor, insira um número válido.");
+            return -1;
+        }
+
+        return result;
     }
 }
